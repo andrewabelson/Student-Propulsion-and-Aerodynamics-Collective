@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SPAC — Student Propulsion & Aerodynamics Collective</title>
+    <meta name="description" content="Student-run aerospace research group focused on airframes, propulsion, and repeatable flight testing for competitions like the American Rocketry Challenge." />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%230ea5e9' d='M32 3l9 18H23L32 3zM32 61l-9-18h18l-9 18z'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%2338bdf8'/%3E%3C/svg%3E" />
+
+    <!-- Tailwind CSS via CDN -->
+    <script>
+      // Set dark mode before Tailwind to avoid FOUC
+      (function() {
+        const saved = localStorage.getItem('spac-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (!saved && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ['ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji'] },
+            boxShadow: { glow: '0 0 0 0.5px rgb(14 165 233 / 0.8), 0 20px 60px -10px rgb(14 165 233 / 0.35)' },
+            colors: {
+              brand: { 50:'#f0f9ff', 100:'#e0f2fe', 200:'#bae6fd', 300:'#7dd3fc', 400:'#38bdf8', 500:'#0ea5e9', 600:'#0284c7', 700:'#0369a1', 800:'#075985', 900:'#0c4a6e' }
+            }
+          }
+        },
+        darkMode: 'class'
+      };
+    </script>
+    <style>
+      .glass { backdrop-filter: blur(10px); background: color-mix(in oklab, white 70%, transparent); }
+      .dark .glass { backdrop-filter: blur(12px); background: color-mix(in oklab, #020617 70%, transparent); }
+      .grid-bg { background-image: linear-gradient(to right, rgb(2 6 23 / .08) 1px, transparent 1px), linear-gradient(to bottom, rgb(2 6 23 / .08) 1px, transparent 1px); background-size: 28px 28px; }
+      .dark .grid-bg { background-image: linear-gradient(to right, rgb(148 163 184 / .12) 1px, transparent 1px), linear-gradient(to bottom, rgb(148 163 184 / .12) 1px, transparent 1px); }
+    </style>
+  </head>
+  <body class="bg-white text-slate-800 dark:bg-slate-950 dark:text-slate-100">
+    <!-- Header -->
+    <header class="sticky top-0 z-40 border-b border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur">
+      <div class="max-w-7xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <a href="#home" class="flex items-center gap-3">
+          <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true" class="text-brand-500">
+            <path d="M32 3l9 18H23L32 3zM32 61l-9-18h18l-9 18z" fill="currentColor"/>
+            <circle cx="32" cy="32" r="5" fill="currentColor" class="opacity-70"/>
+          </svg>
+          <span class="font-bold tracking-tight">SPAC</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-6">
+          <a href="#mission" class="text-sm text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Mission</a>
+          <a href="#programs" class="text-sm text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Programs</a>
+          <a href="#launches" class="text-sm text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Launches</a>
+          <a href="#team" class="text-sm text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Team</a>
+          <a href="#docs" class="text-sm text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Docs</a>
+          <a href="#contact" class="text-sm text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Contact</a>
+        </nav>
+        <div class="flex items-center gap-3">
+          <a href="#contact" class="hidden sm:inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold bg-brand-500 text-white hover:bg-brand-600">Join / Contact</a>
+          <button id="themeToggle" class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="Toggle theme">
+            <svg id="iconSun" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" class="hidden"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zM12 4V1h-0v3h0zm0 19v-3h0v3h0zM4 12H1v0h3v0zm19 0h-3v0h3v0zM6.76 19.16l-1.42 1.42-1.79-1.79 1.41-1.41 1.8 1.78zM19.16 6.76l1.41-1.41-1.79-1.8-1.41 1.41 1.79 1.8z"/></svg>
+            <svg id="iconMoon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section id="home" class="relative overflow-hidden">
+      <div class="absolute inset-0 -z-10 grid-bg"></div>
+      <div class="absolute -top-24 -right-16 h-[420px] w-[420px] rounded-full bg-brand-500/20 blur-3xl"></div>
+      <div class="absolute -bottom-24 -left-24 h-[420px] w-[420px] rounded-full bg-brand-400/20 blur-3xl"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
+          <div>
+            <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+              Student Propulsion & Aerodynamics Collective
+            </h1>
+            <p class="mt-6 text-lg text-slate-700 dark:text-slate-300 max-w-2xl">
+              A student-run aerospace research group building and testing efficient airframes, guidance, and recovery systems for competitions like the American Rocketry Challenge.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a href="#programs" class="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold bg-brand-500 text-white hover:bg-brand-600">Explore Programs</a>
+              <a href="#contact" class="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Join the Team</a>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="aspect-[4/3] rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-glow bg-slate-50 dark:bg-slate-900">
+              <!-- Simple inline illustration -->
+              <svg viewBox="0 0 800 600" class="w-full h-full">
+                <defs>
+                  <linearGradient id="grad" x1="0" x2="1">
+                    <stop offset="0%" stop-color="#38bdf8"/>
+                    <stop offset="100%" stop-color="#0ea5e9"/>
+                  </linearGradient>
+                </defs>
+                <rect width="800" height="600" fill="#0b1220" opacity="0.6"/>
+                <g transform="translate(120,300)">
+                  <polygon points="0,30 480,0 480,0 0,-30" fill="url(#grad)" opacity="0.9"/>
+                  <polygon points="480,0 680,10 480,20" fill="#38bdf8" opacity="0.8"/>
+                  <circle cx="480" cy="0" r="10" fill="#e2e8f0"/>
+                  <text x="0" y="-55" fill="#e2e8f0" font-size="22" font-family="ui-sans-serif,system-ui">Baseline TARC airframe → 850–900 ft window</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission -->
+    <section id="mission" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">Mission</h2>
+      <p class="text-slate-700 dark:text-slate-300 text-lg leading-relaxed">
+        We give motivated students a professional-grade sandbox to learn aerodynamics, propulsion, structures, control, and test methodology by building real hardware and flying it safely under NAR codes. Our ethos: <span class="font-semibold">design → simulate → test → iterate → document</span>.
+      </p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/50 shadow-sm">
+          <h3 class="font-semibold text-slate-900 dark:text-white">Education First</h3>
+          <p class="mt-2 text-slate-700 dark:text-slate-300">Workflows mirror real labs: OpenRocket/RASAero sims, mass‑trim logs, parachute sizing, failure notes, and flight readiness checklists.</p>
+        </div>
+        <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/50 shadow-sm">
+          <h3 class="font-semibold text-slate-900 dark:text-white">Repeatable Engineering</h3>
+          <p class="mt-2 text-slate-700 dark:text-slate-300">The goal isn’t one perfect flight — it’s consistent performance under changing conditions.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Programs -->
+    <section id="programs" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">Programs & Focus</h2>
+      <div class="grid gap-6 lg:grid-cols-3">
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 p-6 bg-white/70 dark:bg-slate-900/50 shadow">
+          <h3 class="text-xl font-semibold text-slate-900 dark:text-white">TARC 2025 Team</h3>
+          <p class="mt-3 text-slate-700 dark:text-slate-300">Build a compliant egg‑payload rocket tuned for the target altitude/time window. Emphasis on drag management, mass trim, and parachute descent rates.</p>
+          <a href="#" class="inline-flex mt-4 text-sm font-semibold text-brand-600 hover:text-brand-700">TARC Basics (PDF placeholder) →</a>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 p-6 bg-white/70 dark:bg-slate-900/50 shadow">
+          <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Airframe & CFD</h3>
+          <p class="mt-3 text-slate-700 dark:text-slate-300">Low‑Re airfoil selection, tail volume coefficients, fin planform trades, stability margins (1.0–1.5 cal), and tip‑loss mitigation.</p>
+          <a href="#" class="inline-flex mt-4 text-sm font-semibold text-brand-600 hover:text-brand-700">View Example Sims (placeholder) →</a>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 p-6 bg-white/70 dark:bg-slate-900/50 shadow">
+          <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Test & Reliability</h3>
+          <p class="mt-3 text-slate-700 dark:text-slate-300">Checklists, removable mass modules, ejection timing sweeps, recovery packing SOP, and post‑flight data capture.</p>
+          <a href="#" class="inline-flex mt-4 text-sm font-semibold text-brand-600 hover:text-brand-700">Download Checklists (placeholder) →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Launches -->
+    <section id="launches" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">Launches & Qualification</h2>
+      <div class="grid gap-6 lg:grid-cols-2">
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 p-6 bg-white/70 dark:bg-slate-900/50 shadow">
+          <h3 class="font-semibold text-slate-900 dark:text-white">Southern California</h3>
+          <ul class="mt-3 space-y-2 list-disc list-inside text-slate-700 dark:text-slate-300">
+            <li>Practice: South Bay rocketry field (SCRA) — small‑field tuning.</li>
+            <li>Qual Flights: Lucerne Dry Lake (ROC) — large field, NAR observer on site.</li>
+          </ul>
+          <p class="mt-3 text-sm text-slate-500">Replace with your club calendar links.</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 p-6 bg-white/70 dark:bg-slate-900/50 shadow">
+          <h3 class="font-semibold text-slate-900 dark:text-white">Safety & Compliance</h3>
+          <ul class="mt-3 space-y-2 list-disc list-inside text-slate-700 dark:text-slate-300">
+            <li>NAR Safety Code adherence at all launches.</li>
+            <li>Two‑adult rule for field ops when transporting or handling motors.</li>
+            <li>Pre‑flight checklist & RSO briefing required.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section id="team" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-8">Directors & Leads</h2>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 p-6 bg-white/70 dark:bg-slate-900/50 shadow">
+          <div class="flex items-center gap-4">
+            <div class="h-12 w-12 rounded-full bg-brand-500/20 text-brand-600 flex items-center justify-center font-bold">EA</div>
+            <div>
+              <div class="font-semibold text-slate-900 dark:text-white">Eric Abelson</div>
+              <div class="text-sm text-slate-500">President / Adult Supervisor</div>
+            </div>
+          </div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 p-6 bg-white/70 dark:bg-slate-900/50 shadow">
+          <div class="flex items-center gap-4">
+            <div class="h-12 w-12 rounded-full bg-brand-500/20 text-brand-600 flex items-center justify-center font-bold">AA</div>
+            <div>
+              <div class="font-semibold text-slate-900 dark:text-white">Andrew Abelson</div>
+              <div class="text-sm text-slate-500">Team Captain / Director</div>
+            </div>
+          </div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 p-6 bg-white/70 dark:bg-slate-900/50 shadow">
+          <div class="flex items-center gap-4">
+            <div class="h-12 w-12 rounded-full bg-brand-500/20 text-brand-600 flex items-center justify-center font-bold">FN</div>
+            <div>
+              <div class="font-semibold text-slate-900 dark:text-white">[Friend Name]</div>
+              <div class="text-sm text-slate-500">Director / Systems Lead</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Docs -->
+    <section id="docs" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">Documents</h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <a href="#" class="rounded-xl border border-dashed border-slate-300 dark:border-slate-700 p-6 hover:bg-slate-50 dark:hover:bg-slate-900/60 block">
+          <div class="font-semibold text-slate-900 dark:text-white">Articles of Incorporation (PDF)</div>
+          <div class="text-sm text-slate-500">Add your filed copy here</div>
+        </a>
+        <a href="#" class="rounded-xl border border-dashed border-slate-300 dark:border-slate-700 p-6 hover:bg-slate-50 dark:hover:bg-slate-900/60 block">
+          <div class="font-semibold text-slate-900 dark:text-white">Bylaws (PDF)</div>
+          <div class="text-sm text-slate-500">Upload your signed bylaws</div>
+        </a>
+        <a href="#" class="rounded-xl border border-dashed border-slate-300 dark:border-slate-700 p-6 hover:bg-slate-50 dark:hover:bg-slate-900/60 block">
+          <div class="font-semibold text-slate-900 dark:text-white">EIN Letter (CP‑575)</div>
+          <div class="text-sm text-slate-500">Attach the IRS confirmation once issued</div>
+        </a>
+        <a href="#" class="rounded-xl border border-dashed border-slate-300 dark:border-slate-700 p-6 hover:bg-slate-50 dark:hover:bg-slate-900/60 block">
+          <div class="font-semibold text-slate-900 dark:text-white">TARC Registration</div>
+          <div class="text-sm text-slate-500">Add your team confirmation email/PDF</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">Contact & Join</h2>
+      <div class="grid gap-8 lg:grid-cols-2">
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 p-6 bg-white/70 dark:bg-slate-900/50 shadow">
+          <h3 class="font-semibold text-slate-900 dark:text-white">Get in touch</h3>
+          <p class="mt-2 text-slate-700 dark:text-slate-300">Questions, mentors, or launch coordination? Reach out and we’ll reply fast.</p>
+          <div class="mt-4 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+            <div><span class="font-semibold">Email:</span> <a id="contactEmail" href="mailto:hello@spac-aero.org" class="text-brand-600 hover:text-brand-700">hello@spac-aero.org</a> <span class="text-slate-500">(edit to your real email)</span></div>
+            <div><span class="font-semibold">Adult Supervisor:</span> Eric Abelson</div>
+            <div><span class="font-semibold">Registration:</span> Nonprofit Corporation (Public Benefit), Wyoming</div>
+          </div>
+        </div>
+        <form class="rounded-2xl border border-slate-200 dark:border-slate-800 p-6 bg-white/70 dark:bg-slate-900/50 shadow" onsubmit="event.preventDefault(); window.location.href = document.getElementById('contactEmail').href;">
+          <div class="grid gap-4 sm:grid-cols-2">
+            <input class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-900/60 px-3 py-2" placeholder="First name" />
+            <input class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-900/60 px-3 py-2" placeholder="Last name" />
+            <input class="sm:col-span-2 w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-900/60 px-3 py-2" placeholder="Email" />
+            <textarea class="sm:col-span-2 w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-900/60 px-3 py-2" rows="4" placeholder="How do you want to get involved?"></textarea>
+          </div>
+          <div class="mt-4 flex gap-3">
+            <button class="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold bg-brand-500 text-white hover:bg-brand-600" type="submit">Send</button>
+            <button type="button" id="copyEmail" class="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Copy Email</button>
+          </div>
+          <p id="copied" class="mt-2 text-sm text-emerald-600 hidden">Email copied!</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 dark:border-slate-800 py-10 mt-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-sm text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>© <span id="year"></span> Student Propulsion & Aerodynamics Collective (SPAC). All rights reserved.</div>
+        <div class="flex items-center gap-4">
+          <a href="#docs" class="hover:text-slate-700 dark:hover:text-slate-300">Docs</a>
+          <a href="#contact" class="hover:text-slate-700 dark:hover:text-slate-300">Contact</a>
+          <a href="#" class="hover:text-slate-700 dark:hover:text-slate-300">Privacy</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Theme toggle
+      const toggle = document.getElementById('themeToggle');
+      const iconSun = document.getElementById('iconSun');
+      const iconMoon = document.getElementById('iconMoon');
+      function setTheme(next) {
+        const html = document.documentElement;
+        if (next === 'dark') {
+          html.classList.add('dark'); iconSun.classList.remove('hidden'); iconMoon.classList.add('hidden');
+        } else {
+          html.classList.remove('dark'); iconSun.classList.add('hidden'); iconMoon.classList.remove('hidden');
+        }
+        localStorage.setItem('spac-theme', next);
+      }
+      toggle.addEventListener('click', () => {
+        const html = document.documentElement;
+        setTheme(html.classList.contains('dark') ? 'light' : 'dark');
+      });
+      // Initialize icons
+      setTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+
+      // Copy email helper
+      document.getElementById('copyEmail').addEventListener('click', async () => {
+        const email = document.getElementById('contactEmail').textContent.trim();
+        try {
+          await navigator.clipboard.writeText(email);
+          document.getElementById('copied').classList.remove('hidden');
+          setTimeout(() => document.getElementById('copied').classList.add('hidden'), 1600);
+        } catch (e) { alert('Copy failed'); }
+      });
+    </script>
+  </body>
+</html>
